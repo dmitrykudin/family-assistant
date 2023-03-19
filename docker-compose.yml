@@ -1,0 +1,14 @@
+version: "3"
+services:
+
+# family_assistant_local
+  family_assistant_local:
+    image: postgres
+    restart: always
+    container_name: family_assistant_local
+    environment:
+      - "POSTGRES_USER=postgres"
+      - "POSTGRES_PASSWORD=mysecretpassword"
+      - "POSTGRES_DB=postgres"
+    ports:
+      - 44216:5432
