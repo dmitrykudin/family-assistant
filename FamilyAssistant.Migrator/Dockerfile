@@ -3,7 +3,7 @@ WORKDIR /app
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["FamilyAssistant.Migrator/FamilyAssistant.Migrator.csproj", "FamilyAssistant.Migrator/"]
+COPY ["FamilyAssistant.Migrator.csproj", "FamilyAssistant.Migrator/"]
 RUN dotnet restore "FamilyAssistant.Migrator/FamilyAssistant.Migrator.csproj"
 COPY . .
 WORKDIR "/src/FamilyAssistant.Migrator"

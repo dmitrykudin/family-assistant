@@ -5,7 +5,7 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["FamilyAssistant/FamilyAssistant.csproj", "FamilyAssistant/"]
+COPY ["FamilyAssistant.csproj", "FamilyAssistant/"]
 RUN dotnet restore "FamilyAssistant/FamilyAssistant.csproj"
 COPY . .
 WORKDIR "/src/FamilyAssistant"
