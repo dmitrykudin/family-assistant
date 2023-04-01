@@ -2,11 +2,11 @@
 WORKDIR /app
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
-WORKDIR /src
-COPY ["FamilyAssistant.Migrator.csproj", "FamilyAssistant.Migrator/"]
-RUN dotnet restore "FamilyAssistant.Migrator/FamilyAssistant.Migrator.csproj"
+WORKDIR /src/FamilyAssistant.Migrator
+
 COPY . .
-WORKDIR "/src/FamilyAssistant.Migrator"
+
+RUN dotnet restore "FamilyAssistant.Migrator.csproj"
 RUN dotnet build "FamilyAssistant.Migrator.csproj" -c Release -o /app/build
 
 FROM build AS publish
