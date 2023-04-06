@@ -40,6 +40,21 @@ public class ProductToBuyRepository : IProductToBuyRepository
         await connection.ExecuteAsync(command);
     }
 
+    public async Task UpdateQuantity(ProductToBuyV1[] products, CancellationToken token)
+    {
+        var sql = @"
+            UPDATE product_to_buy p1
+            SET quantity = p2.quantity,
+                updated_at = now()
+            FROM unnest(@Products) as p2
+            WHERE p1.id = p2.id";
+
+        var command = new CommandDefinition(sql, parameters: new { Products = products });
+
+        var connection = await _dataSource.OpenConnectionAsync(token);
+        await connection.ExecuteAsync(command);
+    }
+
     public async Task MarkAsBought(long[] productIds, CancellationToken token) =>
         await SetIsBought(true, productIds, token);
 
@@ -74,7 +89,7 @@ public class ProductToBuyRepository : IProductToBuyRepository
         {
             const string productIdsParameterName = nameof(query.ProductIds);
             parameters.Add(productIdsParameterName, query.ProductIds.Value);
-            conditions.Add((query.ProductIds.Type, $"id = ANY(@{productIdsParameterName})"));
+            conditions.Add((query.ProductIds.Type, $"product_id = ANY(@{productIdsParameterName})"));
         }
 
         if (!query.Names?.Value.IsNullOrEmpty() ?? false)

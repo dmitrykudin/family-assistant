@@ -42,7 +42,13 @@ public static class Messages
     };
 
     public static readonly Func<ProductToBuyDto, string> ProductButtonText =
-        x => (x.IsBought ? "✔" : "❗") + $" {x.Name} {x.Quantity}";
+        x => (x.IsBought ? "✔" : "❗") + ProductText(x);
+
+    public static readonly Func<ProductToBuyDto, string> ProductText =
+        x => x.Name + (!string.IsNullOrEmpty(x.Quantity) ? $" {x.Quantity}" : string.Empty);
+
+    public static readonly Func<AddProductToBuyDto, string> AddProductText =
+        x => x.Name + (!string.IsNullOrEmpty(x.Quantity) ? $" {x.Quantity}" : string.Empty);
 
     private static readonly Func<string, string> Strikethrough = x => $"<s>{x}</s>";
 }

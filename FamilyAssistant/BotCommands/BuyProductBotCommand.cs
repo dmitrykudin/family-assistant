@@ -76,7 +76,7 @@ public class BuyProductBotCommand : IBotCommand
             await _botClient.SendTextMessageAsync(
                 message.Chat.Id,
                 Messages.MarkedThatINeedToBuyThis(
-                    string.Join(", ", products.Select(x => $"{x.Name} {x.Quantity}"))),
+                    string.Join(", ", products.Select(x => Messages.AddProductText(x)))),
                 replyToMessageId: message.MessageId,
                 cancellationToken: token);
         }

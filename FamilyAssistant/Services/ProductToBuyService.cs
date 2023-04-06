@@ -1,5 +1,6 @@
 using FamilyAssistant.DAL.Models;
 using FamilyAssistant.DAL.Types;
+using FamilyAssistant.Extensions;
 using FamilyAssistant.Interfaces.DAL.Repositories;
 using FamilyAssistant.Interfaces.Services;
 using FamilyAssistant.Models;
@@ -20,10 +21,13 @@ public class ProductToBuyService : IProductToBuyService
     public async Task AddProductsToBuy(AddProductToBuyDto[] productsToBuy, CancellationToken token)
     {
         var names = productsToBuy.Select(x => x.Name).ToArray();
+        var productsToBuyDictionary = productsToBuy
+            .DistinctBy(x => x.Name)
+            .ToDictionary(x => x.Name, x => x.Quantity);
 
         var products = (await _productRepository.GetOrCreate(names, token))
             .ToDictionary(x => x.Name, x => x.Id);
-        var productsToBuyFromDb = (await _productToBuyRepository.Query(
+        var existingProductsToBuy = (await _productToBuyRepository.Query(
                 new QueryProductsToBuyModel
                 {
                     ProductIds = products.Values.ToArray(),
@@ -32,22 +36,40 @@ public class ProductToBuyService : IProductToBuyService
                 token))
             .ToDictionary(x => x.Name);
 
-        var newProductsToBuy = productsToBuy
-            .Where(x => !productsToBuyFromDb.ContainsKey(x.Name))
+        var newProductsToBuy = productsToBuyDictionary
+            .Where(x => !existingProductsToBuy.ContainsKey(x.Key))
             .ToArray();
+        if (!newProductsToBuy.IsNullOrEmpty())
+        {
+            await _productToBuyRepository.Create(
+                newProductsToBuy
+                    .Select(x => new ProductToBuyV1
+                    {
+                        ProductId = products[x.Key],
+                        Name = x.Key,
+                        Quantity = x.Value,
+                        CreatedAt = DateTimeOffset.Now.ToUniversalTime(),
+                        UpdatedAt = DateTimeOffset.Now.ToUniversalTime(),
+                    })
+                    .ToArray(),
+                token);
+        }
 
-        await _productToBuyRepository.Create(
-            newProductsToBuy
-                .Select(x => new ProductToBuyV1
-                {
-                    ProductId = products[x.Name],
-                    Name = x.Name,
-                    Quantity = x.Quantity,
-                    CreatedAt = DateTimeOffset.Now.ToUniversalTime(),
-                    UpdatedAt = DateTimeOffset.Now.ToUniversalTime(),
-                })
-                .ToArray(),
-            token);
+        var updateProductsToBuy = new List<ProductToBuyV1>();
+        foreach (var existingProductToBuy in existingProductsToBuy)
+        {
+            if (productsToBuyDictionary.TryGetValue(existingProductToBuy.Key, out var newQuantity)
+                && !newQuantity.IsNullOrEmpty())
+            {
+                existingProductToBuy.Value.Quantity = newQuantity;
+                updateProductsToBuy.Add(existingProductToBuy.Value);
+            }
+        }
+
+        if (!updateProductsToBuy.IsNullOrEmpty())
+        {
+            await _productToBuyRepository.UpdateQuantity(updateProductsToBuy.ToArray(), token);
+        }
     }
 
     public async Task<ProductToBuyDto[]> GetProductsToBuy(CancellationToken token)

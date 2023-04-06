@@ -7,6 +7,8 @@ public interface IProductToBuyRepository
 {
     Task Create(ProductToBuyV1[] products, CancellationToken token);
 
+    Task UpdateQuantity(ProductToBuyV1[] products, CancellationToken token);
+
     Task MarkAsBought(long[] productIds, CancellationToken token);
 
     Task MarkAsToBuy(long[] productIds, CancellationToken token);
