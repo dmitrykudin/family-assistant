@@ -55,6 +55,7 @@ builder.Services.AddSingleton(PostgresDataSourceBuilder.Build(builder.Configurat
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductToBuyRepository, ProductToBuyRepository>();
 
+builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IProductToBuyService, ProductToBuyService>();
 builder.Services.AddScoped<IProductCategoryService, ProductCategoryService>();
 

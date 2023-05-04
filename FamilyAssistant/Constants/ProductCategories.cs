@@ -10,7 +10,7 @@ public static class ProductCategories
     {
         { ProductCategory.None, "🤷‍♀️ Другое" },
         { ProductCategory.Fruits, "🍉 Фрукты" },
-        { ProductCategory.Vegetables, "🥑 Овощи" },
+        { ProductCategory.Vegetables, "🥕 Овощи" },
         { ProductCategory.Seafood, "🐟 Морепродукты" },
         { ProductCategory.Dairy, "🥛 Молочные продукты" },
         { ProductCategory.Grocery, "🍚 Бакалея" },

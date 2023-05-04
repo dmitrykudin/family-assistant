@@ -8,5 +8,5 @@ public class ProductV2
 
     public DateTimeOffset? CreatedAt { get; set; }
 
-    public int ProductCategoryId { get; set; }
+    public int ProductCategory { get; set; }
 }

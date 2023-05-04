@@ -38,7 +38,7 @@ public class ProductService : IProductService
             .Select(x => new ProductV2
             {
                 Name = x,
-                ProductCategoryId = (int)productToCategoryMap[x],
+                ProductCategory = (int)productToCategoryMap[x],
             })
             .ToArray();
 
@@ -50,7 +50,7 @@ public class ProductService : IProductService
             {
                 Id = x.Id,
                 Name = x.Name,
-                Category = (ProductCategory)x.ProductCategoryId,
+                Category = (ProductCategory)x.ProductCategory,
             })
             .ToArray();
     }
@@ -63,7 +63,7 @@ public class ProductService : IProductService
             {
                 Id = x.Id,
                 Name = x.Name,
-                Category = (ProductCategory)x.ProductCategoryId,
+                Category = (ProductCategory)x.ProductCategory,
             })
             .ToArray();
     }
