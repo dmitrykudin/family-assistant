@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FamilyAssistant", "FamilyAs
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FamilyAssistant.Migrator", "FamilyAssistant.Migrator\FamilyAssistant.Migrator.csproj", "{EC4FCF5E-5347-4434-A7FE-7A878C5834C7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FamilyAssistant.Sandbox", "FamilyAssistant.Sandbox\FamilyAssistant.Sandbox.csproj", "{1AC3797E-4500-4A19-BE64-8E13BBAE19C8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{EC4FCF5E-5347-4434-A7FE-7A878C5834C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC4FCF5E-5347-4434-A7FE-7A878C5834C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC4FCF5E-5347-4434-A7FE-7A878C5834C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AC3797E-4500-4A19-BE64-8E13BBAE19C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AC3797E-4500-4A19-BE64-8E13BBAE19C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AC3797E-4500-4A19-BE64-8E13BBAE19C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AC3797E-4500-4A19-BE64-8E13BBAE19C8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -26,7 +26,7 @@ public static class ButtonHelper
                 var result = new List<InlineKeyboardButton[]>
                 {
                     InlineKeyboardButton
-                        .WithCallbackData(ProductCategories.ProductCategoryNameMap[x.Key])
+                        .WithCallbackData(ProductCategories.ProductCategoryDisplayNameMap[x.Key])
                         .ToOneElementArray(),
                 };
 
