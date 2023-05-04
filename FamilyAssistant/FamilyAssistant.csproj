@@ -23,6 +23,9 @@
 
     <ItemGroup>
       <Folder Include="Services\WebHook" />
+      <Content Update="productCategories.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
 </Project>
