@@ -9,6 +9,7 @@ using FamilyAssistant.Interfaces.Services;
 using FamilyAssistant.Services;
 using FamilyAssistant.Services.Polling;
 using FamilyAssistant.Services.UpdateHandlers;
+using FamilyAssistant.Services.WebHook;
 using Telegram.Bot;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,8 +34,7 @@ builder.Services
 if (botConfiguration!.UseWebHook)
 {
     builder.Services.AddScoped<WebHookUpdateHandler>();
-
-    // TODO: Sort out WebHook setup
+    builder.Services.AddHostedService<ConfigureWebHookHostedService>();
 }
 else
 {
