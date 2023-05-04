@@ -9,13 +9,15 @@ namespace FamilyAssistant.Services;
 
 public class ProductToBuyService : IProductToBuyService
 {
-    private readonly IProductRepository _productRepository;
     private readonly IProductToBuyRepository _productToBuyRepository;
 
-    public ProductToBuyService(IProductRepository productRepository, IProductToBuyRepository productToBuyRepository)
+    private readonly IProductService _productService;
+
+    public ProductToBuyService(IProductToBuyRepository productToBuyRepository, IProductService productService)
     {
-        _productRepository = productRepository;
         _productToBuyRepository = productToBuyRepository;
+
+        _productService = productService;
     }
 
     public async Task AddProductsToBuy(AddProductToBuyDto[] productsToBuy, CancellationToken token)
@@ -25,7 +27,7 @@ public class ProductToBuyService : IProductToBuyService
             .DistinctBy(x => x.Name)
             .ToDictionary(x => x.Name, x => x.Quantity);
 
-        var products = (await _productRepository.GetOrCreate(names, token))
+        var products = (await _productService.GetOrCreate(names, token))
             .ToDictionary(x => x.Name, x => x.Id);
         var existingProductsToBuy = (await _productToBuyRepository.Query(
                 new QueryProductsToBuyModel
@@ -75,7 +77,7 @@ public class ProductToBuyService : IProductToBuyService
     public async Task<ProductToBuyDto[]> GetProductsToBuy(CancellationToken token)
     {
         var hourAgo = DateTimeOffset.UtcNow.AddHours(-1);
-        var products = await _productToBuyRepository.Query(
+        var productsToBuy = await _productToBuyRepository.Query(
             new QueryProductsToBuyModel
             {
                 Bought = false,
@@ -83,7 +85,15 @@ public class ProductToBuyService : IProductToBuyService
             },
             token);
 
-        return products
+        var products = (await _productService.GetById(
+                productsToBuy
+                    .Select(x => x.ProductId)
+                    .Distinct()
+                    .ToArray(),
+                token))
+            .ToDictionary(x => x.Id);
+
+        return productsToBuy
             .GroupBy(x => x.Name)
             .Select(x => x.Count() > 1
                 ? x.FirstOrDefault(y => !y.IsBought)
@@ -91,8 +101,11 @@ public class ProductToBuyService : IProductToBuyService
             .Where(x => x is not null)
             .Select(x => new ProductToBuyDto
             {
-                Id = x.Id,
+                Id = x!.Id,
                 ProductId = x.ProductId,
+                Product = products.TryGetValue(x.ProductId, out var product)
+                    ? product
+                    : null,
                 Name = x.Name,
                 Quantity = x.Quantity,
                 CreatedAt = x.CreatedAt,

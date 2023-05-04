@@ -1,4 +1,5 @@
 using FamilyAssistant.Constants;
+using FamilyAssistant.Enums;
 using FamilyAssistant.Extensions;
 using FamilyAssistant.Models;
 using Newtonsoft.Json;
@@ -15,16 +16,35 @@ public static class ButtonHelper
             return null;
         }
 
-        return new InlineKeyboardMarkup(products
-            .Batch(2)
-            .Select(x => x
-                .Select(y => InlineKeyboardButton
-                    .WithCallbackData(
-                        Messages.ProductButtonText(y),
-                        JsonConvert.SerializeObject(new MarkBoughtProductDto
-                        {
-                            Id = y.Id,
-                            Command = Commands.ToggleBuyProductQueryCommand,
-                        })))));
+        var productByCategoriesButtons = products
+            .GroupBy(x => x.Product?.Category is not null
+                ? x.Product!.Category
+                : ProductCategory.None)
+            .OrderBy(x => x.Key is ProductCategory.None)
+            .SelectMany(x =>
+            {
+                var result = new List<InlineKeyboardButton[]>
+                {
+                    new InlineKeyboardButton(ProductCategories.ProductCategoryNameMap[x.Key])
+                        .ToOneElementArray(),
+                };
+
+                result.AddRange(x
+                    .Batch(2)
+                    .Select(y => y
+                        .Select(z => InlineKeyboardButton
+                            .WithCallbackData(
+                                Messages.ProductButtonText(z),
+                                JsonConvert.SerializeObject(new MarkBoughtProductDto
+                                {
+                                    Id = z.Id,
+                                    Command = Commands.ToggleBuyProductQueryCommand,
+                                }))).ToArray()));
+
+                return result;
+            })
+            .ToArray();
+
+        return new InlineKeyboardMarkup(productByCategoriesButtons);
     }
 }

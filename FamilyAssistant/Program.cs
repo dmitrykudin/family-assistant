@@ -56,6 +56,7 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductToBuyRepository, ProductToBuyRepository>();
 
 builder.Services.AddScoped<IProductToBuyService, ProductToBuyService>();
+builder.Services.AddScoped<IProductCategoryService, ProductCategoryService>();
 
 builder.Services
     .AddControllers()

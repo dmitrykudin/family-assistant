@@ -6,6 +6,8 @@ public class ProductToBuyDto
 
     public long ProductId { get; set; }
 
+    public ProductDto? Product { get; set; }
+
     public string Name { get; set; }
 
     public string Quantity { get; set; }
