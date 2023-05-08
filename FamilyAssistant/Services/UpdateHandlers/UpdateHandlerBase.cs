@@ -39,25 +39,39 @@ public class UpdateHandlerBase
             return;
         }
 
-        if (IsCommand(message))
-        {
-            var tokens = message.Text!.Split(' ');
-            var botCommand = _botCommandFactory.GetBotCommand(tokens[0]);
+        var command = IsCommand(message)
+            ? message.Text!.Split(' ')[0]
+            : message.ReplyToMessage?.Text == Messages.TypeWhatYouWantToBuy
+                ? Commands.BuyProductCommand
+                : null;
 
-            await botCommand.ExecuteAsync(message, token);
+        if (command.IsNullOrEmpty())
+        {
+            return;
         }
 
-        if (message.ReplyToMessage?.Text == Messages.TypeWhatYouWantToBuy)
-        {
-            var botCommand = _botCommandFactory.GetBotCommand(Commands.BuyProductCommand);
+        var botCommand = _botCommandFactory.GetBotCommand(command!);
 
-            await botCommand.ExecuteAsync(message, token);
+        if (botCommand is null)
+        {
+            return;
         }
+
+        await botCommand.ExecuteAsync(message, token);
     }
 
     private async Task BotOnCallbackQueryReceived(CallbackQuery callbackQuery, CancellationToken token)
     {
-        var commandCallback = JsonConvert.DeserializeObject<CommandCallbackBaseDto>(callbackQuery.Data!);
+        CommandCallbackBaseDto? commandCallback;
+
+        try
+        {
+            commandCallback = JsonConvert.DeserializeObject<CommandCallbackBaseDto>(callbackQuery.Data!);
+        }
+        catch (JsonException)
+        {
+            commandCallback = null;
+        }
 
         if (commandCallback is null || commandCallback.Command.IsNullOrEmpty())
         {

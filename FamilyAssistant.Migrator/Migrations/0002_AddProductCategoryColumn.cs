@@ -14,7 +14,7 @@ public class AddProductCategoryColumn : Migration
             $$
                 BEGIN
                     IF NOT EXISTS (SELECT * FROM pg_type WHERE typname = 'product_v2') THEN
-                        CREATE TYPE product_v1 AS (
+                        CREATE TYPE product_v2 AS (
                                 id                BIGINT,
                                 name              TEXT,
                                 created_at        TIMESTAMP WITH TIME ZONE,

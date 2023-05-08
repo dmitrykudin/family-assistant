@@ -1,5 +1,6 @@
 using FamilyAssistant.Constants;
 using FamilyAssistant.Extensions;
+using FamilyAssistant.Helpers;
 using FamilyAssistant.Interfaces.Commands;
 using FamilyAssistant.Interfaces.Services;
 using FamilyAssistant.Models;
@@ -42,7 +43,7 @@ public class ToggleBuyProductQueryCommand : IBotQueryCommand
 
         var text = products.IsNullOrEmpty()
             ? Messages.YouHaveNoProductsToBuy
-            : Messages.HereAreYourProductsToBuy(products);
+            : Messages.HereAreYourProductsToBuy;
 
         await _botClient.EditMessageTextAsync(
             callbackQuery.Message.Chat.Id,

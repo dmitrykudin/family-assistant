@@ -5,7 +5,7 @@ using FamilyAssistant.Models;
 using Newtonsoft.Json;
 using Telegram.Bot.Types.ReplyMarkups;
 
-namespace FamilyAssistant;
+namespace FamilyAssistant.Helpers;
 
 public static class ButtonHelper
 {
@@ -21,11 +21,13 @@ public static class ButtonHelper
                 ? x.Product!.Category
                 : ProductCategory.None)
             .OrderBy(x => x.Key is ProductCategory.None)
+            .ThenBy(x => x.Key)
             .SelectMany(x =>
             {
                 var result = new List<InlineKeyboardButton[]>
                 {
-                    new InlineKeyboardButton(ProductCategories.ProductCategoryNameMap[x.Key])
+                    InlineKeyboardButton
+                        .WithCallbackData(ProductCategories.ProductCategoryDisplayNameMap[x.Key])
                         .ToOneElementArray(),
                 };
 

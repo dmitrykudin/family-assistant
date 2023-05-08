@@ -1,5 +1,6 @@
 using FamilyAssistant.Constants;
 using FamilyAssistant.Extensions;
+using FamilyAssistant.Helpers;
 using FamilyAssistant.Interfaces.Commands;
 using FamilyAssistant.Interfaces.Services;
 using Telegram.Bot;
@@ -25,7 +26,7 @@ public class GetProductsToBuyBotCommand : IBotCommand
 
         var text = products.IsNullOrEmpty()
             ? Messages.YouHaveNoProductsToBuy
-            : Messages.HereAreYourProductsToBuy(products);
+            : Messages.HereAreYourProductsToBuy;
 
         await _botClient.SendTextMessageAsync(
             message.Chat.Id,
