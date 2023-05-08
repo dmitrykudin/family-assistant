@@ -21,6 +21,7 @@ public static class ButtonHelper
                 ? x.Product!.Category
                 : ProductCategory.None)
             .OrderBy(x => x.Key is ProductCategory.None)
+            .ThenBy(x => x.Key)
             .SelectMany(x =>
             {
                 var result = new List<InlineKeyboardButton[]>

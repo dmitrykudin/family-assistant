@@ -15,16 +15,17 @@ public static class ProductCategories
         { ProductCategory.Dairy, "Молочные продукты" },
         { ProductCategory.Grocery, "Бакалея" },
         { ProductCategory.Drinks, "Напитки" },
-        { ProductCategory.Snakcs, "Снеки" },
+        { ProductCategory.Snacks, "Снеки" },
         { ProductCategory.CannedFood, "Консервы" },
         { ProductCategory.FrozenFood, "Замороженные продукты" },
         { ProductCategory.HouseholdChemicals, "Бытовая химия" },
-        { ProductCategory.PersonalHygeine, "Личная гигиена" },
+        { ProductCategory.PersonalHygiene, "Личная гигиена" },
         { ProductCategory.ForHome, "Для дома" },
         { ProductCategory.Health, "Здоровье" },
         { ProductCategory.Appliances, "Бытовая техника" },
         { ProductCategory.Sweets, "Сладости" },
         { ProductCategory.Bakery, "Выпечка" },
+        { ProductCategory.Pets, "Для животных" }
     };
 
     public static readonly Dictionary<ProductCategory, string> ProductCategoryDisplayNameMap = new()
@@ -36,15 +37,16 @@ public static class ProductCategories
         { ProductCategory.Dairy, "🥛 Молочные продукты" },
         { ProductCategory.Grocery, "🍚 Бакалея" },
         { ProductCategory.Drinks, "🥤 Напитки" },
-        { ProductCategory.Snakcs, "🍔 Снеки" },
+        { ProductCategory.Snacks, "🍔 Снеки" },
         { ProductCategory.CannedFood, "🥫 Консервы" },
         { ProductCategory.FrozenFood, "🧊 Замороженные продукты" },
         { ProductCategory.HouseholdChemicals, "🧴 Бытовая химия" },
-        { ProductCategory.PersonalHygeine, "🪥 Личная гигиена" },
+        { ProductCategory.PersonalHygiene, "🪥 Личная гигиена" },
         { ProductCategory.ForHome, "🏠 Для дома" },
         { ProductCategory.Health, "💊 Здоровье" },
         { ProductCategory.Appliances, "🎛️ Бытовая техника" },
         { ProductCategory.Sweets, "🍫 Сладости" },
         { ProductCategory.Bakery, "🥐 Выпечка" },
+        { ProductCategory.Pets, "🐱 Для животных" }
     };
 }
