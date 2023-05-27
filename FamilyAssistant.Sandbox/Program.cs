@@ -6,9 +6,7 @@ var productCategoryService = new ProductCategoryService();
 
 var categories = productCategoryService.MapProductCategory(new[]
 {
-    "Молоко",
-    "Сгущёнка",
-    "Ряженка"
+    "Мороженое",
 });
 
 foreach (var category in categories)

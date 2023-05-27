@@ -32,16 +32,16 @@ public static class ButtonHelper
                 };
 
                 result.AddRange(x
-                    .Batch(2)
-                    .Select(y => y
-                        .Select(z => InlineKeyboardButton
-                            .WithCallbackData(
-                                Messages.ProductButtonText(z),
-                                JsonConvert.SerializeObject(new MarkBoughtProductDto
-                                {
-                                    Id = z.Id,
-                                    Command = Commands.ToggleBuyProductQueryCommand,
-                                }))).ToArray()));
+                    .Select(y => InlineKeyboardButton
+                        .WithCallbackData(
+                            Messages.ProductButtonText(y),
+                            JsonConvert.SerializeObject(new MarkBoughtProductDto
+                            {
+                                Id = y.Id,
+                                Command = Commands.ToggleBuyProductQueryCommand
+                            }))
+                        .ToOneElementArray())
+                    .ToArray());
 
                 return result;
             })
