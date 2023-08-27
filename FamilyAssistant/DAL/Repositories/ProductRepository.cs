@@ -97,7 +97,7 @@ public class ProductRepository : IProductRepository
         }
 
         var command = new CommandDefinition(sql, parameters);
-        var connection = await _dataSource.OpenConnectionAsync(token);
+        await using var connection = await _dataSource.OpenConnectionAsync(token);
 
         return (await connection.QueryAsync<ProductV2>(command)).ToArray();
     }
@@ -119,7 +119,7 @@ public class ProductRepository : IProductRepository
                 product.product_category;";
 
         var command = new CommandDefinition(sql, parameters: new { Products = products });
-        var connection = await _dataSource.OpenConnectionAsync(token);
+        await using var connection = await _dataSource.OpenConnectionAsync(token);
 
         return (await connection.QueryAsync<ProductV2>(command)).ToArray();
     }
