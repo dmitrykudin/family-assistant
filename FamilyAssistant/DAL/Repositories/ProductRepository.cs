@@ -35,14 +35,10 @@ public class ProductRepository : IProductRepository
         return productsFromDb.Values.ToArray()
             .Concat(createdProducts)
             .ToArray();
-
     }
 
     public async Task<ProductV2[]> GetByIds(long[] ids, CancellationToken token)
         => await Query(new QueryProductsModel { Ids = ids }, token);
-
-    private async Task<ProductV2[]> SelectByNames(string[] names, CancellationToken token)
-        => await Query(new QueryProductsModel { Names = names }, token);
 
     public async Task<ProductV2[]> Query(QueryProductsModel query, CancellationToken token)
     {
@@ -123,4 +119,7 @@ public class ProductRepository : IProductRepository
 
         return (await connection.QueryAsync<ProductV2>(command)).ToArray();
     }
+
+    private async Task<ProductV2[]> SelectByNames(string[] names, CancellationToken token)
+        => await Query(new QueryProductsModel { Names = names }, token);
 }

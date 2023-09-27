@@ -36,7 +36,8 @@ public class ProductToBuyRepository : IProductToBuyRepository
 
         var command = new CommandDefinition(sql, parameters: new { Products = products });
 
-        var connection = await _dataSource.OpenConnectionAsync(token);
+        await using var connection = await _dataSource.OpenConnectionAsync(token);
+
         await connection.ExecuteAsync(command);
     }
 
@@ -138,7 +139,7 @@ public class ProductToBuyRepository : IProductToBuyRepository
         }
 
         var command = new CommandDefinition(sql, parameters);
-        var connection = await _dataSource.OpenConnectionAsync(token);
+        await using var connection = await _dataSource.OpenConnectionAsync(token);
 
         return (await connection.QueryAsync<ProductToBuyV1>(command)).ToArray();
     }
@@ -157,7 +158,8 @@ public class ProductToBuyRepository : IProductToBuyRepository
             IsBought = isBought,
         });
 
-        var connection = await _dataSource.OpenConnectionAsync(token);
+        await using var connection = await _dataSource.OpenConnectionAsync(token);
+
         await connection.ExecuteAsync(command);
     }
 }
